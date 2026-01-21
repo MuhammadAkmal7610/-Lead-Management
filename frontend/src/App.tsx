@@ -1,5 +1,5 @@
   import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useAuthStore from './stores/authStore'
 
 import Login from './pages/Login';
@@ -12,10 +12,28 @@ import LeadDetail from './pages/LeadDetail';
 import DealRegister from './pages/DealRegister';
 import AdminLeadVerification from './pages/AdminLeadVerification';
 import AdminDealReview from './pages/AdminDealReview';
+import axios from 'axios';
 
 function App() {
   const { user, checkAuth } = useAuthStore();
+    const [leads, setLeads] = useState([]);
+  const fetchLeads = async () => {
+    try {
+      const res = await axios.get('http://localhost:3001/leads/marketplace',{
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  },
+});
+      setLeads(res.data);
+    } catch (error) {
+      console.error('Failed to fetch leads', error);
+    }
+  };
 
+  useEffect(() => {
+    fetchLeads();
+  }, []);
+  const path =`/deals/register/6970b52d03fd253b57743ca8`;
   useEffect(() => {
     checkAuth();
   }, []);
@@ -49,8 +67,8 @@ function App() {
 
              {user.role === 'broker' && (
   <>
-    <Route path="/leads/:id" element={<LeadDetail />} />
-    <Route path="/deals/register/:leadId" element={<DealRegister />} />
+    <Route path="/leads/detail" element={<LeadDetail />} />
+    <Route path="/deals/register/:6970b52d03fd253b57743ca8" element={<DealRegister />} />
   </>
 )}
 

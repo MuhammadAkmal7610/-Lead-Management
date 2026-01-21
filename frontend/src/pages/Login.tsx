@@ -18,6 +18,7 @@ export default function Login() {
         password,
       });
       login(res.data.access_token);
+      localStorage.setItem('token', res.data.access_token);
       navigate('/');
     } catch (err: any) {
       setError(err?.response?.data?.message || 'Login failed');

@@ -9,6 +9,8 @@ export default function Register() {
   const navigate = useNavigate()
 
   const handleSubmit = async (e:any) => {
+    console.log(email, password, role,'form da');
+    
     e.preventDefault()
     try {
       await axios.post('http://localhost:3001/auth/register', { email, password, role })
@@ -74,6 +76,7 @@ export default function Register() {
       >
         <option value="broker">Broker</option>
         <option value="marketer">Marketer</option>
+         <option value="admin">admin</option>
       </select>
     </div>
 

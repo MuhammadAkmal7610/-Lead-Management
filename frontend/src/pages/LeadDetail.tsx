@@ -8,7 +8,7 @@ export default function LeadDetail() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/leads/${id}`)
+    axios.get(`http://localhost:3001/leads/detail`)
       .then(res => {
         setLead(res.data)
         setLoading(false)
