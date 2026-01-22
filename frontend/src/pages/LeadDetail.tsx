@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 
@@ -16,30 +16,103 @@ export default function LeadDetail() {
       .catch(() => setLoading(false))
   }, [id])
 
-  if (loading) return <div className="p-8">Loading...</div>
-  if (!lead) return <div className="p-8 text-red-600">Lead not found</div>
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-500">
+        Loading lead details…
+      </div>
+    )
+  }
+
+  if (!lead) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-red-600">
+        Lead not found
+      </div>
+    )
+  }
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Lead Detail</h1>
-      
-      <div className="bg-white p-6 rounded-lg shadow space-y-4">
-        <div><strong>Name:</strong> {lead.name || 'Masked'}</div>
-        <div><strong>Phone:</strong> {lead.phone || '******'}</div>
-        <div><strong>Location:</strong> {lead.location}</div>
-        <div><strong>Type:</strong> {lead.propertyType}</div>
-        <div><strong>Budget:</strong> PKR {lead.budget?.toLocaleString()}</div>
-        <div><strong>Timeline:</strong> {lead.timeline}</div>
-        <div><strong>Status:</strong> {lead.status}</div>
-        
-        {lead.purchasedBy && (
-          <div className="mt-6 pt-6 border-t">
-            <p className="text-green-600 font-semibold">You own this lead</p>
-            <button className="mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
-              Register Deal →
-            </button>
+    <div className="min-h-screen bg-slate-100 p-6">
+      <div className="max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold text-gray-900 mb-8">
+          Lead Detail
+        </h1>
+
+        <div className="bg-white rounded-2xl shadow-sm p-8 space-y-6">
+          {/* Lead Info */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <p className="text-sm text-gray-500">Name</p>
+              <p className="font-medium text-gray-800">
+                {lead.name || 'Masked'}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500">Phone</p>
+              <p className="font-medium text-gray-800">
+                {lead.phone || '******'}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500">Location</p>
+              <p className="font-medium text-gray-800">
+                {lead.location}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500">Property Type</p>
+              <p className="font-medium text-gray-800">
+                {lead.propertyType}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500">Budget</p>
+              <p className="font-medium text-gray-800">
+                PKR {lead.budget?.toLocaleString()}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500">Timeline</p>
+              <p className="font-medium text-gray-800">
+                {lead.timeline}
+              </p>
+            </div>
           </div>
-        )}
+
+          {/* Status */}
+          <div>
+            <span
+              className={`inline-block px-4 py-1.5 rounded-full text-sm font-medium
+                ${
+                  lead.status === 'verified'
+                    ? 'bg-emerald-100 text-emerald-700'
+                    : 'bg-blue-100 text-blue-700'
+                }
+              `}
+            >
+              {lead.status}
+            </span>
+          </div>
+
+          {/* Ownership Section */}
+          {lead.purchasedBy && (
+            <div className="pt-6 border-t">
+              <p className="text-emerald-600 font-semibold mb-4">
+                You own this lead
+              </p>
+
+              <button className="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-blue-700 active:scale-95 transition">
+                Register Deal →
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

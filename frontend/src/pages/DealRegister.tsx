@@ -12,7 +12,7 @@ export default function DealRegister() {
     e.preventDefault()
     try {
       await axios.post('http://localhost:3001/deals', {
-        leadId:"6970b52d03fd253b57743ca8",
+        leadId:"697113bd5cc9024f21c1571f",
         notes,
         isHot
       })
